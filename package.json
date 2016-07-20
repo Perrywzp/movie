@@ -1,0 +1,38 @@
+{
+  "name": "movie",
+  "version": "1.0.0",
+  "description": "movie",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.3",
+    "express-session": "^1.14.0",
+    "jade": "^1.11.0",
+    "moment": "^2.10.6",
+    "mongoose": "^4.2.8",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-nodemon": "^0.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "movie"
+  ],
+  "author": "perry",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Perrywzp/movie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Perrywzp/movie/issues"
+  },
+  "homepage": "https://github.com/Perrywzp/movie#readme"
+}
