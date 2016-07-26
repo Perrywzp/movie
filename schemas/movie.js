@@ -23,7 +23,7 @@ var MovieSchema = new mongoose.Schema({
     }
 });
 
-MovieSchema.pre('save',function(){
+MovieSchema.pre('save',function(next){
     if(this.isNew){
         this.meta.createAt = this.meta.updateAt = Date.now();
     }else{
