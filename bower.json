@@ -1,0 +1,25 @@
+{
+  "name": "movie",
+  "description": "movie",
+  "main": "app.js",
+  "authors": [
+    "perry"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "movie"
+  ],
+  "homepage": "https://github.com/Perrywzp/movie",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.14.1",
+    "bootstrap": "~3.3.6"
+  }
+}

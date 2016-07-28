@@ -15,6 +15,7 @@ var Movie = require('./models/movie');
 var User = require('./models/user');
 var port = process.env.PORT || 3000;
 var app = express();
+app.locals.moment = require('moment');
 mongoose.connect('mongodb://localhost/movie');
 app.set('views', './views/pages');
 app.set('view engine', 'jade');
@@ -56,7 +57,7 @@ app.get('/admin/list', function (req, res) {
 
 // list delete page
 
-app.get('/admin/del', function (req, res) {
+app.delete('/admin/list', function (req, res) {
     var id = req.query.id;
     if (id) {
         Movie.remove({_id: id}, function (err, movie) {
@@ -136,6 +137,7 @@ app.get('/movie/:id', function (req, res) {
     var id = req.params.id;
 
     Movie.findById(id, function (err, movie) {
+        console.log(movie);
         res.render('detail', {
             title: 'movie ' + movie.title,
             movie: movie

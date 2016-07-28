@@ -7,8 +7,9 @@ block content
    .container
       .row
          .col-md-7
-            embed(src = "#{movie.flash}", allowFullScreen="true", quality="high", width="720", height="600",
-            algin="middle", type="application/x-shockwave-flash")
+            video( width="720" height="480" controls autoplay loop)
+               source( src="#{movie.flash}" type="video/mp4" )
+               |Your browser does not support the video tag.
          .col-md-5
             dl.dl-horizontal
                dt 电影名字
