@@ -6,23 +6,36 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var bcrypt = require('bcrypt-nodejs');
 var multipart = require('connect-multiparty');
 var session = require('express-session');
+var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
+var mongoStore = require('connect-mongo')(session);
 var _ = require('underscore');
 var Movie = require('./models/movie');
 var User = require('./models/user');
 var port = process.env.PORT || 3000;
 var app = express();
-app.locals.moment = require('moment');
-mongoose.connect('mongodb://localhost/movie');
+
+var dbUrl = 'mongodb://localhost/movie';
+mongoose.connect(dbUrl);
+
 app.set('views', './views/pages');
 app.set('view engine', 'jade');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser());
+app.use(cookieParser());
 app.use(multipart());
+app.use(session({
+    secret:'movie'
+    ,store: new mongoStore({
+        url: dbUrl,
+        collection: 'sessions'
+    })
+}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.locals.moment = require('moment');
 app.listen(port);
 
 console.log('movie started on port ' + port);
@@ -30,6 +43,8 @@ console.log('movie started on port ' + port);
 // index page
 
 app.get('/', function (req, res) {
+    console.log("user in session:");
+    console.log(req.session.user);
     Movie.fetch(function (err, movies) {
         if (err) {
             console.log(err);
@@ -72,63 +87,73 @@ app.delete('/admin/list', function (req, res) {
 
 //singup
 app.post('/user/signup', function (req, res) {
-    var _user,
-        name = req.body.user.name,
-        password = req.body.user.password;
+    var _user = req.body.user;
+    console.log(_user.name);
+    User.find({name:_user.name},function(err,user){
+        if(err) console.log(err);
+        console.log(user);
+        if(user.length){
+            return res.redirect("/");
+        }
+        else{
+            var user = new User(_user);
+            user.save(function(err,user){
+                if(err) console.log(err);
 
-    if (name) {
-        User.findByName(name, function (err,user) {
-            if (err) {
-                console.log(err);
-            }
-            console.log("该用户名已存在!");
-        });
-        res.redirect('/');
-    }
+                res.redirect("/admin/userlist");
 
-    if (!password) {
-        console.log("密码不能为空！");
-        res.redirect("/");
-
-    }
-
-    _user = new User({
-        name: name,
-        password: password
-    });
-    _user.save(function (err,user) {
-        if (err) console.log(err);
-        res.redirect("/");
-
+            })
+        }
     });
 
-    console.log(_user);
+
+
+
 });
 
+// user list page
+app.get("/admin/userlist",function(req,res){
+    User.fetch(function(err, users){
+        if(err){
+            console.log(err);
+        }
+
+        res.render('userlist',{
+            title: 'imooc 用户列表页',
+            users: users
+        })
+
+    });
+
+});
 
 //登录
 app.post('/user/signin', function (req, res) {
     var _user = req.body.user,
         name = _user.name,
         password = _user.password;
+        console.log(name);
+    User.findOne({name:name}, function(err, user){
+        if(err) console.log(err);
 
-    if (name) {
-        User.findByName(name, function (err, user) {
-            if (err) {
-                console.log(err);
-            }
+        if(!user){
+            return res.redirect('/');
+        }
 
-            var salt = bcrypt.genSaltSync(10);
-            var hash = bcrypt.hashSync(user.password, salt);
-            if(!bcrypt.compareSync(password, hash)){
-                console.log("密码输入有误！");
+        user.comparePassword(password, function(err, isMatch){
+            if(err) console.log(err);
+
+            if(isMatch) {
+                console.log("Password is matched!");
+                console.log(user);
+                req.session.user = user;
+                return res.redirect('/');
             }
-            res.redirect('/');
+            else{
+                console.log("Password is not matched!");
+            }
         })
-    } else {
-        console.log("请输入用户名!");
-        res.redirect('/');
-    }
+    });
 });
 
 // detail page
