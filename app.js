@@ -14,7 +14,7 @@ var mongoStore = require('connect-mongo')(session);
 var _ = require('underscore');
 var Movie = require('./models/movie');
 var User = require('./models/user');
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3030;
 var app = express();
 
 var dbUrl = 'mongodb://localhost/movie';
@@ -119,12 +119,26 @@ app.get("/admin/userlist",function(req,res){
         }
 
         res.render('userlist',{
-            title: 'imooc 用户列表页',
+            title: 'movie 用户列表页',
             users: users
         })
 
     });
 
+});
+
+// delete user
+app.delete("/admin/userlist",function(req, res){
+  var id = req.query.id;
+  if (id) {
+    User.remove({_id: id}, function (err, user) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({success: 1});
+      }
+    });
+  }
 });
 
 //登录
