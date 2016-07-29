@@ -31,6 +31,8 @@ module.exports = function (app) {
   // User
   app.post('/user/signup', User.singup);
   app.post('/user/signin', User.singin);
+  app.get('/signin', User.showSignin);
+  app.get('/signup', User.showSignup);
   app.get('/logout', User.logout);
   app.get("/admin/userlist", User.list);
   app.delete("/admin/userlist", User.del);
