@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var multipart = require('connect-multiparty');
 var session = require('express-session');
+var logger = require('express-logger');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
 var mongoStore = require('connect-mongo')(session);
@@ -32,11 +33,20 @@ app.use(session({
     collection: 'sessions'
   })
 }));
+
+if ('development' === app.get("env")){
+  //能够在browser端打出错误
+  app.set('showStackError', true);
+  app.use(logger({path:'logs.txt'}));
+  app.locals.pretty = true;
+  mongoose.set('debug', true);
+}
+
+require('./config/routes')(app);
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.moment = require('moment');
 app.listen(port);
-
-require('./config/routes')(app);
 
 console.log('movie started on port ' + port);
 
