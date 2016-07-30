@@ -12,6 +12,8 @@ module.exports = function (app) {
 
     if (_user) {
       app.locals.user = _user;
+    }else{
+      delete app.locals.user;
     }
 
     return next();
@@ -21,12 +23,12 @@ module.exports = function (app) {
   app.get('/', Index.index);
 
   // Movie
-  app.get('/admin/list', Movie.list);
-  app.delete('/admin/list', Movie.del);
+  app.get('/admin/list', User.signinRequired, User.adminRequired,Movie.list);
+  app.delete('/admin/list', User.signinRequired, User.adminRequired, Movie.del);
   app.get('/movie/:id', Movie.detail);
-  app.get('/admin/movie', Movie.new);
-  app.get('/admin/update/:id', Movie.update);
-  app.post('/admin/movie/new', Movie.save);
+  app.get('/admin/movie', User.signinRequired, User.adminRequired,Movie.new);
+  app.get('/admin/update/:id', User.signinRequired, User.adminRequired, Movie.update);
+  app.post('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.save);
 
   // User
   app.post('/user/signup', User.singup);
@@ -34,7 +36,7 @@ module.exports = function (app) {
   app.get('/signin', User.showSignin);
   app.get('/signup', User.showSignup);
   app.get('/logout', User.logout);
-  app.get("/admin/userlist", User.list);
-  app.delete("/admin/userlist", User.del);
+  app.get("/admin/userlist", User.signinRequired, User.adminRequired,User.list);
+  app.delete("/admin/userlist",User.signinRequired, User.adminRequired, User.del);
 
 };
