@@ -3,7 +3,28 @@
  */
 
 var Movie = require('../models/movie');
+var Comment = require('../models/comment');
 var _ = require('underscore');
+
+// detail page
+exports.detail = function (req, res) {
+  var id = req.params.id;
+
+  Movie.findById(id, function (err, movie) {
+    console.log(movie);
+    Comment
+      .find({movie:id})
+      .populate('from','name')
+      .exec(function(err, comments){
+        res.render('detail', {
+          title: 'movie 详情页',
+          movie: movie,
+          comments:comments
+        });
+      });
+  });
+};
+
 // list page
 
 exports.list=function (req, res) {
@@ -30,19 +51,6 @@ exports.del =  function (req, res) {
       }
     });
   }
-};
-
-// detail page
-exports.detail = function (req, res) {
-  var id = req.params.id;
-
-  Movie.findById(id, function (err, movie) {
-    console.log(movie);
-    res.render('detail', {
-      title: 'movie 详情页',
-      movie: movie
-    });
-  });
 };
 // admin page
 
