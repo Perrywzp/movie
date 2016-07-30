@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "grunt-concurrent": "^2.3.0",
+    "grunt-contrib-livereload": "^0.1.2",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-nodemon": "^0.4.2"
   },
