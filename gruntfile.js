@@ -1,14 +1,14 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
     uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'public/js/<%= pkg.name %>.js',
-        dest: 'build/js/<%= pkg.name %>.min.js'
+      development:{
+        files:{
+          'public/build/admin.min.js':'public/js/admin.js',
+          'public/build/detail.min.js':[
+            'public/js/detail.js'
+          ]
+        }
       }
     },
     watch: {
@@ -26,6 +26,27 @@ module.exports = function (grunt) {
         }
       }
     },
+    jshint:{
+      options:{
+        jshintrc: '.jshintrc',
+        ignores:['public/libs/**/*.js']
+      },
+      all:['public/js/*.js','test/**/*.js','app/**/*.js']
+    },
+
+    less:{
+      development:{
+        options:{
+          compress: true,
+          yuicompress:true,
+          optimization:2
+        }
+      },
+      files:{
+        'public/build/index.css': 'public/less/index.less'
+      }
+    },
+
 
     nodemon: {
       dev: {
@@ -53,7 +74,7 @@ module.exports = function (grunt) {
     },
 
     concurrent: {
-      tasks: ['nodemon', 'watch'],
+      tasks: ['nodemon', 'watch','less','uglify','jshint'],
       options: {
         logConcurrentOutput: true
       }
@@ -71,6 +92,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   //并发运行缓慢的任务就像Coffee和Sass， 可以显著改善您的构建时间。如果要一次运行nodmon和watch，grunt-concurrent这个插件是很有用的。
   grunt.loadNpmTasks('grunt-concurrent');
+
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // 加载mocha任务模块
   grunt.loadNpmTasks('grunt-mocha-test');
