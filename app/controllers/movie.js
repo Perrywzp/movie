@@ -7,6 +7,8 @@ var Movie = require('../models/movie');
 var Comment = require('../models/comment');
 var Category = require('../models/category');
 var _ = require('underscore');
+var fs = require('fs');
+var path = require('path');
 
 // admin page
 
@@ -88,6 +90,10 @@ exports.save = function (req, res) {
   var id = req.body.movie._id;
   var movieObj = req.body.movie;
   var _movie;
+  // 判断是否是上传
+  if(req.poster){
+    movieObj.poster = req.poster;
+  }
 
   if (id) {
     Movie.findById(id, function (err, movie) {
@@ -142,3 +148,27 @@ exports.save = function (req, res) {
   }
 };
 
+// admin poster
+exports.savePoster = function(req, res, next){
+  var posterData = req.files.uploadPoster;
+  var filepath = posterData.path;
+  var originalFilename = posterData.originalFilename;
+  console.log(req.files);
+
+  if(originalFilename){
+    fs.readFile(filepath, function (err, data) {
+      var timestamp = Date.now();
+      var type = posterData.type.split('/')[1];
+      var poster = timestamp + '.' + type;
+      var newPath = path.join(__dirname, '../../', '/public/upload/images/'+poster);
+
+      fs.writeFile(newPath, data, function(err){
+        req.poster = poster;
+        next();
+      });
+    })
+  }
+  else{
+    next();
+  }
+};
