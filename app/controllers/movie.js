@@ -11,7 +11,7 @@ var _ = require('underscore');
 // admin page
 
 exports.new = function (req, res) {
-  Category.find({}, function(err, categories){
+  Category.find({}, function (err, categories) {
     res.render('admin', {
       title: 'movie 后台录入页',
       categories: categories,
@@ -24,7 +24,7 @@ exports.new = function (req, res) {
 exports.update = function (req, res) {
   var id = req.params.id;
   if (id) {
-    Category.find({}, function(err, categories) {
+    Category.find({}, function (err, categories) {
       Movie.findById(id, function (err, movie) {
         res.render('admin', {
           title: 'movie 后台管理更新页',
@@ -55,7 +55,6 @@ exports.detail = function (req, res) {
   var id = req.params.id;
 
   Movie.findById(id, function (err, movie) {
-    console.log(movie);
     Comment
       .find({movie: id})
       .populate('from', 'name')
@@ -84,7 +83,6 @@ exports.del = function (req, res) {
 };
 
 
-
 // admin post  movie
 exports.save = function (req, res) {
   var id = req.body.movie._id;
@@ -107,18 +105,39 @@ exports.save = function (req, res) {
     });
   } else {
     _movie = new Movie(movieObj);
-    var categoryId = _movie.category;
+    var categoryId = movieObj.category;
+    var categoryName = movieObj.categoryName;
     _movie.save(function (err, movie) {
       if (err) {
         console.log(err);
       }
-      Category.findById(categoryId, function(err, category){
-        category.movies.push(movie._id);
+      if (categoryId) {
+        Category.findById(categoryId, function (err, category) {
+          category.movies.push(movie._id);
 
-        category.save(function(err,category){
-          res.redirect('/movie/' + movie._id);
+          category.save(function (err, category) {
+            res.redirect('/movie/' + movie._id);
+          });
         });
-      });
+      }
+      else if (categoryName){
+        var category = new Category({
+          name: categoryName,
+          movies: [movie._id]
+        });
+
+        category.save(function(err, category){
+          movie.category = category._id;
+          movie.save(function(err, movie){
+            res.redirect('/movie/' + movie._id);
+          });
+        })
+
+      }
+      else{
+        console.log("未选择分类或自定义分类");
+        res.redirect('/admin/movie/new');
+      }
     });
   }
 };
