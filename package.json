@@ -15,6 +15,7 @@
     "jade": "^1.11.0",
     "moment": "^2.10.6",
     "mongoose": "^4.2.8",
+    "should": "^10.0.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -22,7 +23,9 @@
     "grunt-contrib-livereload": "^0.1.2",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-nodemon": "^0.4.2"
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-nodemon": "^0.4.2",
+    "mocha": "^2.5.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -60,7 +60,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-livereload');
+  // grunt.loadNpmTasks('grunt-contrib-livereload');
   // 可以监控特定的文件，在添加文件、修改文件、或者删除文件的时候自动执行自定义的任务
   grunt.loadNpmTasks('grunt-contrib-watch');
   // 自动重启项目工程，node 有一个 npm 模块 supervisior 也是用来监控进程的，不过除了
@@ -73,8 +73,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
 
   // 加载mocha任务模块
-  grunt.loadNpmTasks('grunt-mocha-tesst');
+  grunt.loadNpmTasks('grunt-mocha-test');
   //屏蔽语法错误导致代码中断
   grunt.option('force', true);
   grunt.registerTask('default', ['concurrent']);
+  grunt.registerTask('test',['mochaTest']);
 };
