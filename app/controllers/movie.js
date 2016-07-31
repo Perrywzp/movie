@@ -15,7 +15,9 @@ exports.detail = function (req, res) {
     Comment
       .find({movie:id})
       .populate('from','name')
+      .populate('reply.from reply.to', 'name')
       .exec(function(err, comments){
+        console.log(comments[1].reply);
         res.render('detail', {
           title: 'movie 详情页',
           movie: movie,
@@ -95,7 +97,6 @@ exports.save = function (req, res) {
         console.log(err);
       }
       _movie = _.extend(movie, movieObj);
-      console.log(_movie);
       _movie.save(function (err, movie) {
         if (err) {
           console.log(err);

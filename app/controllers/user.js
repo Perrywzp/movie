@@ -72,7 +72,6 @@ exports.singin = function (req, res) {
   var _user = req.body.user,
     name = _user.name,
     password = _user.password;
-  console.log(name);
   User.findOne({name: name}, function (err, user) {
     if (err) console.log(err);
 
@@ -85,7 +84,6 @@ exports.singin = function (req, res) {
 
       if (isMatch) {
         console.log("Password is matched!");
-        console.log(user);
         req.session.user = user;
         return res.redirect('/');
       }
