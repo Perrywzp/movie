@@ -1,3 +1,6 @@
+/*
+ *用户模式
+ */
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var SALT_WORK_FACTORY = 10;

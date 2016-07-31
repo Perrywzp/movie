@@ -1,5 +1,6 @@
 /**
  * Created by perry on 16/7/30.
+ * 用户评论
  */
 
 var Comment = require('../models/comment');

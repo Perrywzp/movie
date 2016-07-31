@@ -1,24 +1,14 @@
 /**
- * Created by perry on 15/9/27.
- * 电影模式
+ * Created by perry on 16/7/31.
+ * 电影分类
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
-var MovieSchema = new mongoose.Schema({
-  doctor: String,
-  title: String,
-  language: String,
-  summary: String,
-  country: String,
-  flash: String,
-  poster: String,
-  year: Number,
-  category: {
-    type: ObjectId,
-    ref: 'Category'
-  },
+var CategorySchema = new mongoose.Schema({
+  name: String,
+  movies: [{type: ObjectId, ref: 'Movie'}],
   meta: {
     createAt: {
       type: Date,
@@ -31,7 +21,7 @@ var MovieSchema = new mongoose.Schema({
   }
 });
 
-MovieSchema.pre('save', function (next) {
+CategorySchema.pre('save', function (next) {
   if (this.isNew) {
     this.meta.createAt = this.meta.updateAt = Date.now();
   } else {
@@ -40,7 +30,7 @@ MovieSchema.pre('save', function (next) {
   next();
 });
 
-MovieSchema.statics = {
+CategorySchema.statics = {
   fetch: function (cb) {
     return this
       .find({})
@@ -54,5 +44,4 @@ MovieSchema.statics = {
   }
 };
 
-module.exports = MovieSchema;
-
+module.exports = CategorySchema;

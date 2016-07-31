@@ -1,5 +1,6 @@
 /**
  * Created by perry on 16/7/30.
+ * 评论模式
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
