@@ -65,6 +65,8 @@ if ('development' === app.get("env")){
 }
 
 require('./config/routes')(app);
+require('./config/api_routes')(app);
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.moment = require('moment');
