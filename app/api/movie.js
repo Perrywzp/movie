@@ -123,13 +123,13 @@ exports.save = function (req, res) {
     Movie.findById(id, function (err, movie) {
       if (err) {
         console.log(err);
-        res.json({status: 'error', msg: '请求失败！', err: err});
+        res.json({status: 'error', msg: '保存失败！', err: err});
       }
       _movie = _.extend(movie, movieObj);
       _movie.save(function (err, movie) {
         if (err) {
           console.log(err);
-          res.json({status: 'error', msg: '请求失败！', err: err});
+          res.json({status: 'error', msg: '保存失败！', err: err});
         }
 
         res.json({status: 'success', msg: '保存成功！'});
@@ -142,7 +142,7 @@ exports.save = function (req, res) {
     _movie.save(function (err, movie) {
       if (err) {
         console.log(err);
-        res.json({status: 'error', msg: '请求失败！', err: err});
+        res.json({status: 'error', msg: '保存失败！', err: err});
       }
       if (categoryId) {
         Category.findById(categoryId, function (err, category) {

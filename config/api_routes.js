@@ -54,5 +54,5 @@ module.exports = function (app) {
 
 
   //results
-  app.get('/results',Index.search);
+  app.get('/api/results',Index.search);
 };

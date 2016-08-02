@@ -23,10 +23,10 @@ exports.save = function (req, res) {
       comment.save(function (err, comment) {
         if (err) {
           console.log(err);
-          res.json({status: 'error', msg: '更新失败！', err: err});
+          res.json({status: 'error', msg: '评论失败！', err: err});
         }
 
-        res.json({status: 'success', msg: '更新成功！'});
+        res.json({status: 'success', msg: '评论成功！'});
       });
     });
   }
@@ -36,10 +36,10 @@ exports.save = function (req, res) {
     comment.save(function (err, comment) {
       if (err) {
         console.log(err);
-        res.json({status: 'error', msg: '保存失败！', err: err});
+        res.json({status: 'error', msg: '评论失败！', err: err});
       }
 
-      res.json({status: 'success', msg: '保存成功！'});
+      res.json({status: 'success', msg: '评论成功！'});
     });
   }
 };

@@ -49,15 +49,18 @@ exports.singup = function (req, res) {
     console.log(user);
     if (user.length) {
       //return res.redirect("/signin");
-      return res.json({status: 'error', msg: '请先登录！'});
+      return res.json({status: 'error', msg: '用户名已被占用！'});
     }
     else {
       var user = new User(_user);
       user.save(function (err, user) {
-        if (err) console.log(err);
+        if (err){
+          console.log(err);
+          return res.json({status: 'error', msg: '注册失败！'});
+        }
 
         //return res.redirect("/signin");
-        return res.json({status: 'error', msg: '请先登录！'});
+        return res.json({status: 'success', msg: '注册成功，前往登录！'});
       })
     }
   });
@@ -100,7 +103,8 @@ exports.singin = function (req, res) {
       }
       else {
         console.log("Password is not matched!");
-        return res.redirect('/signin');
+        return res.json({status: 'error', msg: '登录失败！'});
+        //return res.redirect('/signin');
       }
     })
   });
