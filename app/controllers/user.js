@@ -8,6 +8,7 @@ exports.signinRequired = function(req, res, next){
   var user = req.session.user;
 
   if (!user) {
+    console.log("请先登录！");
     return res.redirect('/signin');
   }
 
@@ -18,6 +19,7 @@ exports.adminRequired = function(req, res, next){
   var user = req.session.user;
 
   if (user.role <= 10 ) {
+    console.log("用户权限不够！");
     return res.redirect('/signin');
   }
 
