@@ -28,14 +28,14 @@ exports.adminRequired = function (req, res, next) {
 
 // showSingin
 exports.showSignin = function (req, res) {
-  res.json('signin', {
+  res.json({
     title: '登录页面'
   });
 };
 
 // showSignup
 exports.showSignup = function (req, res) {
-  res.json('signup', {
+  res.json({
     title: '注册页面'
   });
 };
@@ -115,7 +115,7 @@ exports.list = function (req, res) {
       res.json({status: 'error', msg: '请求失败！', err: err});
     }
 
-    res.json('userlist', {
+    res.json({
       status: 'success',
       msg: '请求成功！',
       data: {

@@ -7,7 +7,7 @@ var Category = require('../models/category');
 // category 新建
 
 exports.new = function (req, res) {
-  res.json('category_admin', {
+  res.json({
     status: 'success',
     msg: '请求成功！',
     data: {
@@ -43,7 +43,7 @@ exports.list = function (req, res) {
       res.json({status: 'error', msg: '请求失败！', err: err});
     }
 
-    res.json('category_list', {
+    res.json({
       status: 'success',
       msg: '请求成功！',
       data: {

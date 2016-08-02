@@ -17,7 +17,7 @@ exports.index = function (req, res) {
         console.log(err);
         res.json({status: 'error', msg: '请求失败！', err: err});
       }
-      res.json('index', {
+      res.json({
         status: 'success',
         msg: '请求成功！',
         data: {
@@ -55,7 +55,7 @@ exports.search = function (req, res) {
         var movies = category.movies || [];
         var results = movies.slice(index, index + count);
 
-        res.json('results', {
+        res.json({
           status: 'success',
           msg: '请求成功！',
           data: {
@@ -80,7 +80,7 @@ exports.search = function (req, res) {
 
         var results = movies.slice(index, index + count);
 
-        res.json('results', {
+        res.json({
           status: 'success',
           msg: '请求成功！',
           data: {

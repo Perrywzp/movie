@@ -14,7 +14,7 @@ var path = require('path');
 
 exports.new = function (req, res) {
   Category.find({}, function (err, categories) {
-    res.json('admin', {
+    res.json({
       status: 'success',
       msg: '请求成功！',
       data: {
@@ -32,7 +32,7 @@ exports.update = function (req, res) {
   if (id) {
     Category.find({}, function (err, categories) {
       Movie.findById(id, function (err, movie) {
-        res.json('admin', {
+        res.json({
           status: 'success',
           msg: '更新成功！',
           data: {
@@ -54,7 +54,7 @@ exports.list = function (req, res) {
       console.log(err);
       res.json({status: 'error', msg: '请求失败！', err: err});
     }
-    res.json('list', {
+    res.json({
       status: 'success',
       msg: '请求成功！',
       data: {
@@ -81,7 +81,7 @@ exports.detail = function (req, res) {
       .populate('from', 'name')
       .populate('reply.from reply.to', 'name')
       .exec(function (err, comments) {
-        res.json('detail', {
+        res.json({
           status: 'success',
           msg: '请求成功！',
           data: {

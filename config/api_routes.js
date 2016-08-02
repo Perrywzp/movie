@@ -3,11 +3,11 @@
  * @author wangzhipei
  * @date 2016/8/1/0001.
  */
-var Index = require('../app/api/controllers/index');
-var User = require('../app/api/controllers/user');
-var Movie = require('../app/api/controllers/movie');
-var Comment = require('../app/api/controllers/comment');
-var Category = require('../app/api/controllers/category');
+var Index = require('../app/api/index');
+var User = require('../app/api/user');
+var Movie = require('../app/api/movie');
+var Comment = require('../app/api/comment');
+var Category = require('../app/api/category');
 
 module.exports = function (app) {
 // pre handle user
