@@ -12,10 +12,17 @@ var logger = require('express-logger');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
 var mongoStore = require('connect-mongo')(session);
+var cors = require('cors');
+
 
 var port = process.env.PORT || 3030;
 var app = express();
 var fs = require('fs');
+// 创建存放上传资源的文件夹
+var uploadDir = __dirname + '/upload',mediaDir = __dirname + '/media';
+fs.existsSync(uploadDir) || fs.mkdirSync(uploadDir);
+fs.existsSync(mediaDir) || fs.mkdirSync(mediaDir);
+
 var dbUrl = 'mongodb://localhost/movie';
 mongoose.connect(dbUrl);
 
@@ -55,6 +62,7 @@ app.use(session({
     collection: 'sessions'
   })
 }));
+app.use('/api',cors());
 
 if ('development' === app.get("env")){
   //能够在browser端打出错误

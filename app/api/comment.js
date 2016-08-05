@@ -17,7 +17,6 @@ exports.save = function (req, res) {
         to: _comment.tid,
         content: _comment.content
       };
-
       comment.reply.push(reply);
 
       comment.save(function (err, comment) {

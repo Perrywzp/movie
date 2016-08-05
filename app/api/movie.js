@@ -178,8 +178,8 @@ exports.save = function (req, res) {
 // admin poster
 exports.savePoster = function (req, res, next) {
   var posterData = req.files.uploadPoster;
-  var filepath = posterData.path;
-  var originalFilename = posterData.originalFilename;
+  var filepath = posterData && posterData.path;
+  var originalFilename = posterData && posterData.originalFilename;
   console.log(req.files);
 
   if (originalFilename) {

@@ -69,7 +69,7 @@ exports.singup = function (req, res) {
 // logout
 exports.logout = function (req, res) {
   delete req.session.user;
-
+  return res.json({status: 'success', msg: '成功退出！'});
   //res.redirect('/');
 };
 
